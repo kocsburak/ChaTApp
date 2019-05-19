@@ -32,66 +32,73 @@ class MessageListAdapter(
         var imageviewCheck: ImageView = view.findViewById(R.id.imageViewCheck) as ImageView // default
         var textViewDate = view.findViewById(R.id.textViewDate) as TextView
 
-        if (list[position].getSender() == FirebaseAuth.getInstance().uid) {
 
-            if (list[position].getType() == "text") {
-
-                var textView = view.findViewById(R.id.textViewMessage) as TextView
-                textView.text = list[position].getText()
-                textViewDate.text = list[position].getDate()
-
-            } else if (list[position].getType() == "image") {
-                view = inflater.inflate(R.layout.messages_list_item_sender_photo, parent, false)
-                imageviewCheck = view.findViewById(R.id.imageViewCheck) as ImageView
-                textViewDate = view.findViewById(R.id.textViewDate) as TextView
-                var photo = view.findViewById(R.id.imageViewPhoto) as ImageView
-                var picassoHelper = PicassoHelper(photo)
-                picassoHelper.getPhoto(list[position].getUrl())
-                textViewDate.text = list[position].getDate()
-
-            }else{
-                // video
-                view = inflater.inflate(R.layout.message_list_item_sender_video, parent, false)
-                imageviewCheck = view.findViewById(R.id.imageViewCheck) as ImageView
-                textViewDate = view.findViewById(R.id.textViewDate) as TextView
-                textViewDate.text = list[position].getDate()
-
-            }
-            // Check IF Receiver Got Message
-            if (list[position].getStatus() == "1") {
-                imageviewCheck.setImageDrawable(context.getDrawable(R.drawable.ic_green_check))
-            }
-
+        if (list[position].getType() == "progress") {
+            view = inflater.inflate(R.layout.message_list_item_progress,parent,false)
         } else {
 
 
-            if (list[position].getType() == "text") {
+            if (list[position].getSender() == FirebaseAuth.getInstance().uid) {
 
-                view = inflater.inflate(R.layout.message_list_item_receiver, parent, false)
-                var textViewDate = view.findViewById(R.id.textViewDate) as TextView
-                var textView = view.findViewById(R.id.textViewMessage) as TextView
-                textView.text = list[position].getText()
-                textViewDate.text = list[position].getDate()
+                if (list[position].getType() == "text") {
 
-            } else if (list[position].getType() == "image") {
+                    var textView = view.findViewById(R.id.textViewMessage) as TextView
+                    textView.text = list[position].getText()
+                    textViewDate.text = list[position].getDate()
 
-                view = inflater.inflate(R.layout.messages_list_item_receiver_photo, parent, false)
-                var textViewDate = view.findViewById(R.id.textViewDate) as TextView
-                var photo = view.findViewById(R.id.imageViewPhoto) as ImageView
-                var picassoHelper = PicassoHelper(photo)
-                picassoHelper.getPhoto(list[position].getUrl())
-                textViewDate.text = list[position].getDate()
+                } else if (list[position].getType() == "image") {
+                    view = inflater.inflate(R.layout.messages_list_item_sender_photo, parent, false)
+                    imageviewCheck = view.findViewById(R.id.imageViewCheck) as ImageView
+                    textViewDate = view.findViewById(R.id.textViewDate) as TextView
+                    var photo = view.findViewById(R.id.imageViewPhoto) as ImageView
+                    var picassoHelper = PicassoHelper(photo)
+                    picassoHelper.getPhoto(list[position].getUrl())
+                    textViewDate.text = list[position].getDate()
 
-            } else{
-                //video
-                view = inflater.inflate(R.layout.message_list_item_receiver_video, parent, false)
+                } else {
+                    // video
+                    view = inflater.inflate(R.layout.message_list_item_sender_video, parent, false)
+                    imageviewCheck = view.findViewById(R.id.imageViewCheck) as ImageView
+                    textViewDate = view.findViewById(R.id.textViewDate) as TextView
+                    textViewDate.text = list[position].getDate()
+
+                }
+                // Check IF Receiver Got Message
+                if (list[position].getStatus() == "1") {
+                    imageviewCheck.setImageDrawable(context.getDrawable(R.drawable.ic_green_check))
+                }
+
+            } else {
+
+
+                if (list[position].getType() == "text") {
+
+                    view = inflater.inflate(R.layout.message_list_item_receiver, parent, false)
+                    var textViewDate = view.findViewById(R.id.textViewDate) as TextView
+                    var textView = view.findViewById(R.id.textViewMessage) as TextView
+                    textView.text = list[position].getText()
+                    textViewDate.text = list[position].getDate()
+
+                } else if (list[position].getType() == "image") {
+
+                    view = inflater.inflate(R.layout.messages_list_item_receiver_photo, parent, false)
+                    var textViewDate = view.findViewById(R.id.textViewDate) as TextView
+                    var photo = view.findViewById(R.id.imageViewPhoto) as ImageView
+                    var picassoHelper = PicassoHelper(photo)
+                    picassoHelper.getPhoto(list[position].getUrl())
+                    textViewDate.text = list[position].getDate()
+
+                } else {
+                    //video
+                    view = inflater.inflate(R.layout.message_list_item_receiver_video, parent, false)
+                }
+
+
+            }
+            view.setOnClickListener {
+                onItemClick.onItemClick(list[position].getUrl(), list[position].getType())
             }
 
-
-        }
-
-        view.setOnClickListener {
-            onItemClick.onItemClick(list[position].getUrl(),list[position].getType())
         }
         return view
     }
@@ -114,7 +121,7 @@ class MessageListAdapter(
     }
 
     interface OnItemClick {
-        fun onItemClick(url: String,type:String) {}
+        fun onItemClick(url: String, type: String) {}
     }
 
 }

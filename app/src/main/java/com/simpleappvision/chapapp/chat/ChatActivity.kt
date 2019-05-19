@@ -236,6 +236,8 @@ class ChatActivity : AppCompatActivity(), View.OnClickListener, MessageListAdapt
     private fun uploadMedia(type:String) {
         messageCount++
         updateKey()
+        addProgressMessage()
+
         storageReference.child("messages").child(pushId).child("" + messageCount).putFile(filePath!!)
             .addOnCompleteListener { p0 ->
                 if (p0.isSuccessful) {
@@ -252,6 +254,7 @@ class ChatActivity : AppCompatActivity(), View.OnClickListener, MessageListAdapt
             .downloadUrl.addOnCompleteListener { p0 ->
 
             if (p0.isSuccessful) {
+                deleteProgressItem()
                 sendMessage(type, p0!!.result.toString())
             }
 
@@ -302,5 +305,18 @@ class ChatActivity : AppCompatActivity(), View.OnClickListener, MessageListAdapt
         var intent = Intent(this, PlayVideoActivity::class.java)
         startActivity(intent)
     }
+
+
+    private fun addProgressMessage(){
+        var message = Message()
+        message.setType("progress")
+        messages.add(message)
+        showMessages()
+    }
+
+    private fun deleteProgressItem(){
+        messages.removeAt(messageCount)
+    }
+
 
 }
