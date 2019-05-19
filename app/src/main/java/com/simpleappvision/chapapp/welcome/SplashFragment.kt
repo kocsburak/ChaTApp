@@ -1,5 +1,6 @@
 package com.simpleappvision.chapapp.welcome
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.simpleappvision.chapapp.R
 import com.simpleappvision.chapapp.authentication.SigninFragment
+import com.simpleappvision.chapapp.home.HomeActivity
 
 
 class SplashFragment : Fragment() {
@@ -25,7 +27,7 @@ class SplashFragment : Fragment() {
 
     }
 
-
+    // For Showing App Logo 2 Seconds
     private fun delayScreen() {
         object : CountDownTimer(2000, 1000) {
 
@@ -39,7 +41,7 @@ class SplashFragment : Fragment() {
         }.start()
     }
 
-
+    // Check Has User Signed In?
     private fun checkUserSession() {
         if (FirebaseAuth.getInstance().currentUser != null) {
             // User Has Logged in
@@ -53,20 +55,21 @@ class SplashFragment : Fragment() {
         Log.v(mTAG, "User Should Log in ")
     }
 
+    // Change Screen Area
     private fun startHomeActivity() {
         // TODO : start Home Activity
+        var intent = Intent(activity!!,HomeActivity::class.java)
+        startActivity(intent)
+    }
+    private fun loadSignInFragment() {
+        val transaction: FragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.layoutAuthenticationFragmentPlace, SigninFragment())
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun finishActivity() {
         activity!!.finish()
     }
-
-    private fun loadSignInFragment() {
-        val transaction : FragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.layoutAuthenticationFragmentPlace,SigninFragment())
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
-
 
 }

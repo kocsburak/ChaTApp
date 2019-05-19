@@ -3,6 +3,24 @@
     <string name="text_signin">Sign In</string>
     <string name="text_email">Email</string>
     <string name="text_password">Password</string>
-    <string name="text_forgot_password_link">Forgot Password ? Change It</string>
+    <string name="text_forgot_password_link">Forgot Your Password ?</string>
     <string name="text_signup_link">Not Have An Account ? Sign Up</string>
+    <string name="text_please_wait">Please Wait..</string>
+    <string name="text_your">Your</string>
+    <string name="text_fullname">Fullname</string>
+    <string name="text_signin_link">Have An Account ? Sign In</string>
+    <string name="text_next">Next</string>
+    <string name="text_done">Done</string>
+    <string name="text_reset_password">Reset Password</string>
+    <string name="text_send">Send</string>
+    <string name="text_return_signin">Return To Sign In</string>
+    <string name="text_password_request_success">We Have Sent A Mail To Your Email Address.Check It</string>
+
+
+    <string name="error_authentication_failed">Authentication Failed</string>
+    <string name="error_email_has_been_used">Email Has Already Been Used</string>
+    <string name="error_went_wrong">Something Went Wrong</string>
+    <string name="error_password_request">Could Not Send A Mail To Your Email Address!</string>
+
+
 </resources>
